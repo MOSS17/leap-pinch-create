@@ -8,6 +8,8 @@ public class IndicesTouchManager : MonoBehaviour
     float PinchDistance;
     [SerializeField]
     float PalmDistance;
+    [SerializeField]
+    float ScaleMultiplier;
 
     [SerializeField]
     Transform lIndex;
@@ -29,6 +31,7 @@ public class IndicesTouchManager : MonoBehaviour
     bool PinchReady = false;
 
     bool creandoCubo = false;
+    GameObject cube;
     void Start()
     {
         
@@ -51,24 +54,31 @@ public class IndicesTouchManager : MonoBehaviour
             && Vector3.Distance(rIndex.position,rThumb.position) <= PinchDistance 
             && creandoCubo == false)
             {
-                GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                cube.transform.position = 
-                    new Vector3(
-                        (lIndex.position.x + rIndex.position.x) / 2, 
-                        (lIndex.position.y + rIndex.position.y) / 2, 
-                        (lIndex.position.z + rIndex.position.z) / 2);
-                cube.transform.localScale = new Vector3(
-                    Vector3.Distance(lIndex.position,rIndex.position), 
-                    Vector3.Distance(lIndex.position,rIndex.position), 
-                    Vector3.Distance(lIndex.position,rIndex.position));
+                cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 creandoCubo = true;
             }
+        }
+
+        if(creandoCubo)
+        {
+            cube.transform.position = 
+                new Vector3(
+                    (lIndex.position.x + rIndex.position.x) / 2, 
+                    (lIndex.position.y + rIndex.position.y) / 2, 
+                    (lIndex.position.z + rIndex.position.z) / 2);
+
+            cube.transform.localScale = new Vector3(
+                Vector3.Distance(lIndex.position,rIndex.position) * ScaleMultiplier, 
+                Vector3.Distance(lIndex.position,rIndex.position) * ScaleMultiplier, 
+                Vector3.Distance(lIndex.position,rIndex.position) * ScaleMultiplier);
+
+            cube.transform.rotation = Quaternion.identity;
         }
 
         if(Vector3.Distance(lIndex.position,lThumb.position) >= PinchDistance || Vector3.Distance(rIndex.position,rThumb.position) >= PinchDistance)
         {
             creandoCubo = false;
-
+            PinchReady = false;
         }
     }
 }

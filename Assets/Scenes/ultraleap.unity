@@ -220,6 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PinchDistance: 0.025
   PalmDistance: 0.1
+  ScaleMultiplier: 0.6
   lIndex: {fileID: 931048111}
   lThumb: {fileID: 391381669}
   rIndex: {fileID: 2024813704}
